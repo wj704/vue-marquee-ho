@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monterail/vue-multiselect.git"
+    "url": "git+https://github.com/wj704/vue-marquee.git"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
