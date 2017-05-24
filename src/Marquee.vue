@@ -47,9 +47,9 @@
 
 <template>
   <div class="marquee-box">
-    <div class="marquee-content" :id="pid.out">
-      <p :style="{width:pWidth}" :class="run?speed:''">
-        <span class="text1" :id="pid.in">{{content}}</span>
+    <div class="marquee-content" ref="out">
+      <p :class="run?speed:''">
+        <span class="text1" ref="in" >{{content}}</span>
         <span class="text2" v-if="showtwo||run">{{content}}</span>
       </p>
     </div>
@@ -57,15 +57,13 @@
 </template>
 
 <script>
-  export default{
+  export default {
+    name: 'VueMarquee',
     data (){
       return{
         run: false,
         pWidth: '',
       }
-    },
-    methods:{
-      btnClick (){this.$emit('btnClick')}
     },
     props: {
       content: {
@@ -76,33 +74,34 @@
         default: 'middle',
         type: String
       },
-      pid: {
-        default (){
-          return{
-            out: 'marquee-content',
-            in: 'marquee-p'
-          }
-        }
-      },
       showtwo: {
         default: true
       }
     },
     watch: {
       content (){
+        var _this = this;
         setTimeout(()=>{
-          let out = document.getElementById(this.pid.out).clientWidth;
-          let _in = document.getElementById(this.pid.in).clientWidth;
-          this.pWidth = 2*_in;
-          this.run=_in>out?true:false;
-        },0)
+          // let out = document.getElementById(_this.pid.out).clientWidth;
+          // let _in = document.getElementById(_this.pid.in).clientWidth;
+          _this.$nextTick(()=>{
+            let out = _this.$refs.out.clientWidth;
+            let _in = _this.$refs.in.clientWidth;
+            _this.pWidth = 2*_in;
+            _this.run=_in>out?true:false;
+          });
+        },0);
       }
     },
     mounted (){
-      let out = document.getElementById(this.pid.out).clientWidth;
-      let _in = document.getElementById(this.pid.in).clientWidth;
-      this.pWidth = 2*_in;
-      this.run=_in>out?true:false;
+      // let out = document.getElementById(this.pid.out).clientWidth;
+      // let _in = document.getElementById(this.pid.in).clientWidth;
+      var _this = this;
+      this.$nextTick(()=>{
+        let out = _this.$refs.out.clientWidth;
+        let _in = _this.$refs.in.clientWidth;
+        _this.run=_in>out?true:false;
+      });
     }
   }
 </script>
